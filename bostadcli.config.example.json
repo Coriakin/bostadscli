@@ -1,0 +1,17 @@
+{
+  "s": 0.0,
+  "n": 0.0,
+  "w": 0.0,
+  "e": 0.0,
+  "sort": "annonserad-fran-desc",
+  "minAntalRum": 1,
+  "maxAntalRum": 5,
+  "maxHyra": 15000,
+  "vanlig": true,
+  "student": false,
+  "ungdom": false,
+  "senior": false,
+  "korttid": false,
+  "json": false,
+  "timeoutMs": 10000
+}

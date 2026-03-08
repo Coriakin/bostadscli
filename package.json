@@ -1,0 +1,37 @@
+{
+  "name": "bostadcli",
+  "version": "0.1.0",
+  "description": "CLI for fetching and filtering apartments from bostad.stockholm.se",
+  "type": "module",
+  "bin": {
+    "bostad": "dist/cli.js"
+  },
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE"
+  ],
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "test": "vitest run",
+    "dev": "tsx src/cli.ts",
+    "formula:generate": "node scripts/generate-homebrew-formula.mjs",
+    "prepublishOnly": "npm run test && npm run build"
+  },
+  "keywords": [
+    "cli",
+    "housing",
+    "stockholm"
+  ],
+  "license": "MIT",
+  "engines": {
+    "node": ">=20"
+  },
+  "devDependencies": {
+    "@types/node": "^24.6.0",
+    "pkg": "^5.8.1",
+    "tsx": "^4.20.3",
+    "typescript": "^5.9.2",
+    "vitest": "^3.2.4"
+  }
+}

@@ -1,0 +1,127 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - "v*"
+
+permissions:
+  contents: write
+
+jobs:
+  build-binaries:
+    name: Build ${{ matrix.asset_os }}-${{ matrix.asset_arch }}
+    runs-on: ${{ matrix.runner }}
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - runner: macos-latest
+            target: node20-macos-arm64
+            asset_os: macos
+            asset_arch: arm64
+          - runner: macos-latest
+            target: node20-macos-x64
+            asset_os: macos
+            asset_arch: x64
+          - runner: ubuntu-latest
+            target: node20-linux-x64
+            asset_os: linux
+            asset_arch: x64
+          - runner: ubuntu-latest
+            target: node20-linux-arm64
+            asset_os: linux
+            asset_arch: arm64
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run tests
+        run: npm test
+
+      - name: Build JS bundle
+        run: npm run build
+
+      - name: Build standalone binary
+        run: |
+          mkdir -p build package
+          npx pkg dist/cli.js --targets "${{ matrix.target }}" --output build/bostad
+          chmod +x build/bostad
+
+      - name: Archive binary
+        shell: bash
+        run: |
+          VERSION="${GITHUB_REF_NAME#v}"
+          ARTIFACT="bostadcli_${VERSION}_${{ matrix.asset_os }}_${{ matrix.asset_arch }}.tar.gz"
+          cp build/bostad package/bostad
+          tar -czf "$ARTIFACT" -C package bostad
+          echo "ARTIFACT=$ARTIFACT" >> "$GITHUB_ENV"
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ env.ARTIFACT }}
+          path: ${{ env.ARTIFACT }}
+
+  publish-release:
+    name: Publish GitHub Release
+    needs: build-binaries
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Download artifacts
+        uses: actions/download-artifact@v4
+        with:
+          path: release-artifacts
+
+      - name: Flatten artifacts
+        run: |
+          find release-artifacts -type f -name '*.tar.gz' -exec cp {} . \;
+
+      - name: Generate checksums
+        run: sha256sum bostadcli_*.tar.gz > SHA256SUMS
+
+      - name: Upload release assets
+        uses: softprops/action-gh-release@v2
+        with:
+          files: |
+            bostadcli_*.tar.gz
+            SHA256SUMS
+
+  publish-npm:
+    name: Publish npm package (optional)
+    needs: publish-release
+    if: ${{ secrets.NPM_TOKEN != '' }}
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+          registry-url: https://registry.npmjs.org
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run publish checks
+        run: npm run prepublishOnly
+
+      - name: Publish to npm
+        run: npm publish
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}

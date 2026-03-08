@@ -1,0 +1,9 @@
+node_modules
+/dist
+coverage
+.DS_Store
+bostadcli.config
+build
+package
+SHA256SUMS
+bostadcli_*.tar.gz
