@@ -20,10 +20,6 @@ jobs:
             target: node18-macos-arm64
             asset_os: macos
             asset_arch: arm64
-          - runner: macos-13
-            target: node18-macos-x64
-            asset_os: macos
-            asset_arch: x64
           - runner: ubuntu-latest
             target: node18-linux-x64
             asset_os: linux

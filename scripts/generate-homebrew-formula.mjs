@@ -23,7 +23,6 @@ try {
   const repo = readArg("--repo") ?? "bostadcli";
   const version = required("--version");
   const macosArm64Sha = required("--macos-arm64-sha");
-  const macosX64Sha = required("--macos-x64-sha");
 
   const formula = `class Bostadcli < Formula
   desc "CLI for fetching apartments from bostad.stockholm.se"
@@ -34,11 +33,6 @@ try {
     on_arm do
       url "https://github.com/${owner}/${repo}/releases/download/v${version}/bostadcli_${version}_macos_arm64.tar.gz"
       sha256 "${macosArm64Sha}"
-    end
-
-    on_intel do
-      url "https://github.com/${owner}/${repo}/releases/download/v${version}/bostadcli_${version}_macos_x64.tar.gz"
-      sha256 "${macosX64Sha}"
     end
   end
 

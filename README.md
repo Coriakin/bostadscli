@@ -67,7 +67,6 @@ Release workflow behavior:
 - Runs tests + build
 - Builds standalone binaries with `pkg` for:
   - macOS arm64
-  - macOS x64
   - Linux x64
   - Linux arm64
 - Publishes release assets:
@@ -111,8 +110,7 @@ node scripts/generate-homebrew-formula.mjs \
   --owner OWNER \
   --repo bostadcli \
   --version 0.1.0 \
-  --macos-arm64-sha <ARM64_SHA256> \
-  --macos-x64-sha <X64_SHA256>
+  --macos-arm64-sha <ARM64_SHA256>
 ```
 
 Get checksums from `SHA256SUMS` in the GitHub release.
