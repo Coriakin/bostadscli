@@ -1,4 +1,4 @@
-# bostadcli
+# bostadstockholm
 
 CLI for fetching available apartments from `bostad.stockholm.se` using direct HTTP (`/AllaAnnonser/`) and website-compatible filtering.
 
@@ -18,7 +18,7 @@ node dist/cli.js --help
 ## Usage
 
 ```bash
-bostad --s <south> --n <north> --w <west> --e <east> [options]
+bostadstockholm --s <south> --n <north> --w <west> --e <east> [options]
 ```
 
 Required bounds:
@@ -41,10 +41,10 @@ Options:
 - `--timeout-ms <number>`
 - `--config <path>` (optional config file path)
 
-If no `--config` is provided, the CLI automatically reads `./bostadcli.config.json` if it exists.
+If no `--config` is provided, the CLI automatically reads `./bostadstockholm.config.json` if it exists.
 All config values are optional; CLI flags always win.
 
-A placeholder config is available at [bostadcli.config.example.json](./bostadcli.config.example.json).
+A placeholder config is available at [bostadstockholm.config.example.json](./bostadstockholm.config.example.json).
 
 ## Example
 
@@ -70,7 +70,7 @@ Release workflow behavior:
   - Linux x64
   - Linux arm64
 - Publishes release assets:
-  - `bostadcli_<version>_<os>_<arch>.tar.gz`
+  - `bostadstockholm_<version>_<os>_<arch>.tar.gz`
   - `SHA256SUMS`
 - Optionally publishes npm package if `NPM_TOKEN` is configured.
 
@@ -95,20 +95,20 @@ npm publish
 
 ## Homebrew tap (separate repo)
 
-Use a dedicated tap repo, for example: `OWNER/homebrew-bostadcli`.
+Use a dedicated tap repo, for example: `OWNER/homebrew-bostadstockholm`.
 
 In the tap repo, place formula at:
-- `Formula/bostadcli.rb`
+- `Formula/bostadstockholm.rb`
 
 Template formula is provided here:
-- [packaging/homebrew/Formula/bostadcli.rb](./packaging/homebrew/Formula/bostadcli.rb)
+- [packaging/homebrew/Formula/bostadstockholm.rb](./packaging/homebrew/Formula/bostadstockholm.rb)
 
 You can generate a formula for a specific release with:
 
 ```bash
 node scripts/generate-homebrew-formula.mjs \
   --owner OWNER \
-  --repo bostadcli \
+  --repo bostadstockholm-cli \
   --version 0.1.0 \
   --macos-arm64-sha <ARM64_SHA256>
 ```
@@ -118,9 +118,9 @@ Get checksums from `SHA256SUMS` in the GitHub release.
 ### Install via Homebrew
 
 ```bash
-brew tap OWNER/bostadcli
-brew install bostadcli
-brew upgrade bostadcli
+brew tap OWNER/bostadstockholm-cli
+brew install bostadstockholm
+brew upgrade bostadstockholm
 ```
 
 Homebrew installation uses the standalone binary and does not require Node on the target machine.
@@ -130,14 +130,14 @@ Homebrew installation uses the standalone binary and does not require Node on th
 For each release asset:
 
 ```bash
-./bostad --help
-./bostad --config bostadcli.config --json
+./bostadstockholm --help
+./bostadstockholm --config bostadstockholm.config.json --json
 ```
 
 For tap validation:
 
 ```bash
-brew tap OWNER/bostadcli
-brew install bostadcli
-bostad --help
+brew tap OWNER/bostadstockholm-cli
+brew install bostadstockholm
+bostadstockholm --help
 ```

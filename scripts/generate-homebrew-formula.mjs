@@ -20,28 +20,28 @@ function required(name) {
 
 try {
   const owner = required("--owner");
-  const repo = readArg("--repo") ?? "bostadcli";
+  const repo = readArg("--repo") ?? "bostadstockholm-cli";
   const version = required("--version");
   const macosArm64Sha = required("--macos-arm64-sha");
 
-  const formula = `class Bostadcli < Formula
+  const formula = `class Bostadstockholm < Formula
   desc "CLI for fetching apartments from bostad.stockholm.se"
   homepage "https://github.com/${owner}/${repo}"
   version "${version}"
 
   on_macos do
     on_arm do
-      url "https://github.com/${owner}/${repo}/releases/download/v${version}/bostadcli_${version}_macos_arm64.tar.gz"
+      url "https://github.com/${owner}/${repo}/releases/download/v${version}/bostadstockholm_${version}_macos_arm64.tar.gz"
       sha256 "${macosArm64Sha}"
     end
   end
 
   def install
-    bin.install "bostad"
+    bin.install "bostadstockholm"
   end
 
   test do
-    output = shell_output("#{bin}/bostad --help")
+    output = shell_output("#{bin}/bostadstockholm --help")
     assert_match "Usage:", output
   end
 end

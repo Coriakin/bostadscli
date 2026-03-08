@@ -17,7 +17,7 @@ const ALLOWED_SORTS: SortOrder[] = [
 function printHelp(): string {
   return [
     "Usage:",
-    "  bostad --s <south> --n <north> --w <west> --e <east> [options]",
+    "  bostadstockholm --s <south> --n <north> --w <west> --e <east> [options]",
     "",
     "Required:",
     "  --s, --n, --w, --e              Bounding box coordinates",
@@ -34,7 +34,7 @@ function printHelp(): string {
     "  --korttid                       Include short-term rentals",
     "  --json                          Output JSON",
     "  --timeout-ms <number>           Request timeout in ms (default: 10000)",
-    "  --config <path>                 Optional config file path (default: ./bostadcli.config.json)",
+    "  --config <path>                 Optional config file path (default: ./bostadstockholm.config.json)",
     "  --help                          Show this help",
   ].join("\n");
 }
@@ -198,7 +198,7 @@ function pickBoolean(config: ConfigFile, key: keyof ConfigFile): boolean | undef
 
 export async function loadConfig(configPath?: string): Promise<ConfigFile> {
   const explicitPath = configPath ? resolve(configPath) : undefined;
-  const defaultPath = resolve(process.cwd(), "bostadcli.config.json");
+  const defaultPath = resolve(process.cwd(), "bostadstockholm.config.json");
   const filePath = explicitPath ?? defaultPath;
 
   try {

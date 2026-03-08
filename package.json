@@ -1,10 +1,10 @@
 {
-  "name": "bostadcli",
+  "name": "bostadstockholm",
   "version": "0.1.4",
   "description": "CLI for fetching and filtering apartments from bostad.stockholm.se",
   "type": "module",
   "bin": {
-    "bostad": "dist/cli.js"
+    "bostadstockholm": "dist/cli.js"
   },
   "files": [
     "dist",

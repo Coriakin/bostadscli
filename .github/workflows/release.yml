@@ -54,19 +54,19 @@ jobs:
       - name: Build standalone binary
         run: |
           mkdir -p build package
-          npx pkg build-cjs/pkg-cli.js --targets "${{ matrix.target }}" --output build/bostad
-          chmod +x build/bostad
+          npx pkg build-cjs/pkg-cli.js --targets "${{ matrix.target }}" --output build/bostadstockholm
+          chmod +x build/bostadstockholm
 
       - name: Smoke test standalone binary
-        run: ./build/bostad --help
+        run: ./build/bostadstockholm --help
 
       - name: Archive binary
         shell: bash
         run: |
           VERSION="${GITHUB_REF_NAME#v}"
-          ARTIFACT="bostadcli_${VERSION}_${{ matrix.asset_os }}_${{ matrix.asset_arch }}.tar.gz"
-          cp build/bostad package/bostad
-          tar -czf "$ARTIFACT" -C package bostad
+          ARTIFACT="bostadstockholm_${VERSION}_${{ matrix.asset_os }}_${{ matrix.asset_arch }}.tar.gz"
+          cp build/bostadstockholm package/bostadstockholm
+          tar -czf "$ARTIFACT" -C package bostadstockholm
           echo "ARTIFACT=$ARTIFACT" >> "$GITHUB_ENV"
 
       - name: Upload artifact
@@ -91,13 +91,13 @@ jobs:
           find release-artifacts -type f -name '*.tar.gz' -exec cp {} . \;
 
       - name: Generate checksums
-        run: sha256sum bostadcli_*.tar.gz > SHA256SUMS
+        run: sha256sum bostadstockholm_*.tar.gz > SHA256SUMS
 
       - name: Upload release assets
         uses: softprops/action-gh-release@v2
         with:
           files: |
-            bostadcli_*.tar.gz
+            bostadstockholm_*.tar.gz
             SHA256SUMS
 
   publish-npm:
