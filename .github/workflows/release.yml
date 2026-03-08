@@ -17,19 +17,19 @@ jobs:
       matrix:
         include:
           - runner: macos-latest
-            target: node20-macos-arm64
+            target: node18-macos-arm64
             asset_os: macos
             asset_arch: arm64
           - runner: macos-latest
-            target: node20-macos-x64
+            target: node18-macos-x64
             asset_os: macos
             asset_arch: x64
           - runner: ubuntu-latest
-            target: node20-linux-x64
+            target: node18-linux-x64
             asset_os: linux
             asset_arch: x64
           - runner: ubuntu-latest
-            target: node20-linux-arm64
+            target: node18-linux-arm64
             asset_os: linux
             asset_arch: arm64
 
