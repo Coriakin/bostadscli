@@ -16,11 +16,11 @@ jobs:
       fail-fast: false
       matrix:
         include:
-          - runner: macos-latest
+          - runner: macos-14
             target: node18-macos-arm64
             asset_os: macos
             asset_arch: arm64
-          - runner: macos-latest
+          - runner: macos-13
             target: node18-macos-x64
             asset_os: macos
             asset_arch: x64
@@ -28,7 +28,7 @@ jobs:
             target: node18-linux-x64
             asset_os: linux
             asset_arch: x64
-          - runner: ubuntu-latest
+          - runner: ubuntu-24.04-arm
             target: node18-linux-arm64
             asset_os: linux
             asset_arch: arm64
@@ -52,11 +52,17 @@ jobs:
       - name: Build JS bundle
         run: npm run build
 
+      - name: Build CJS bundle for pkg
+        run: npm run build:cjs
+
       - name: Build standalone binary
         run: |
           mkdir -p build package
-          npx pkg dist/cli.js --targets "${{ matrix.target }}" --output build/bostad
+          npx pkg build-cjs/pkg-cli.js --targets "${{ matrix.target }}" --output build/bostad
           chmod +x build/bostad
+
+      - name: Smoke test standalone binary
+        run: ./build/bostad --help
 
       - name: Archive binary
         shell: bash

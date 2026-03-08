@@ -4,6 +4,7 @@ coverage
 .DS_Store
 bostadcli.config
 build
+build-cjs
 package
 SHA256SUMS
 bostadcli_*.tar.gz
