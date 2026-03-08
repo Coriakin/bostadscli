@@ -101,8 +101,9 @@ jobs:
   publish-npm:
     name: Publish npm package (optional)
     needs: publish-release
-    if: ${{ secrets.NPM_TOKEN != '' }}
     runs-on: ubuntu-latest
+    env:
+      NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
 
     steps:
       - name: Checkout
@@ -122,6 +123,7 @@ jobs:
         run: npm run prepublishOnly
 
       - name: Publish to npm
+        if: ${{ env.NPM_TOKEN != '' }}
         run: npm publish
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
